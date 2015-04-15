@@ -1,0 +1,20 @@
+'use strict';
+
+exports.config = {
+
+    sauceUser: '<SAUCE_LABS_USERNAME>',
+    sauceKey: '<SAUCE_LABS_ACCESS_KEY>',
+
+    sauceSeleniumAddress: 'localhost:4445/wd/hub',
+
+    specs: ['specs/*.feature'],
+
+    framework: 'cucumber',
+
+    onPrepare: function() {
+        browser.manage().timeouts().pageLoadTimeout(80000);
+        browser.manage().timeouts().implicitlyWait(50000);
+
+        browser.ignoreSynchronization = true;
+    },
+};

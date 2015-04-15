@@ -1,0 +1,43 @@
+var tunnelId = 'TechnoTunnel' + new Date().getTime();
+
+module.exports = function(grunt) {
+
+  grunt.initConfig({
+    sauce_connect: {
+      jacekelgda: {
+        options: {
+          username: '<SAUCE_LABS_USERNAME>',
+          accessKey: '<SAUCE_LABS_ACCESS_KEY>',
+          tunnelIdentifier: tunnelId
+        },
+      },
+    },
+    protractor: {
+      options: {
+        configFile: "conf.js",
+        keepAlive: false,
+        noColor: false
+      },
+      test: {
+        options: {
+          configFile: "conf.js",
+          args: {
+            capabilities: {
+              'browserName': 'chrome',
+              'tunnel-identifier': tunnelId
+            }
+          }
+        }
+      }
+    },
+  });
+
+  grunt.loadNpmTasks('grunt-sauce-connect-launcher');
+  grunt.loadNpmTasks('grunt-protractor-runner');
+
+  grunt.registerTask('e2e', [
+    'sauce_connect:jacekelgda',
+    'protractor:test',
+    'sauce-connect-close'
+  ]);
+};
